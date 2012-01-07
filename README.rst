@@ -77,6 +77,19 @@ Installation
 Using pip, you can install it with ``pip install friendlydb``.
 
 
+Performance
+===========
+
+You can scope out FriendlyDB's performance for yourself by running the
+included ``benchmark.py`` script.
+
+In tests on a 2011 MacBook Pro (i7), the benchmark script demonstrated:
+
+* created 1,000,000 relationships between 10,000 users: 7.3 minutes
+* avg time to fetch a user's followers: 0.0008 seconds
+* never exceeding 40Mb of RAM RSS
+
+
 Running Tests
 =============
 
@@ -107,5 +120,5 @@ License
 New BSD license.
 
 :author: Daniel Lindsley
-:version: 0.2.0
+:version: 0.2.2
 :date: 2012-01-06
