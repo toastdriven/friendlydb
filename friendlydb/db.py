@@ -21,7 +21,7 @@ class FriendlyDB(object):
 
         self.data_directory = data_directory
         self.hash_width = hash_width or HASH_WIDTH
-        self.user_klass = FriendlyUser
+        self.user_klass = user_klass
         self.separator = separator or SEPARATOR
         self.is_setup = False
 

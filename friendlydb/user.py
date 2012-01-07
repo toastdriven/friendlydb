@@ -53,7 +53,7 @@ class FriendlyUser(object):
         if isinstance(self.username, unicode):
             username = username.encode('utf-8')
 
-        return "<FriendlyUser %s>" % username
+        return "<%s %s>" % (self.__class__.__name__, username)
 
     # Plumbing.
 
@@ -191,7 +191,7 @@ class FriendlyUser(object):
         self._add_to_following(username)
 
         # Make sure the change is reflected in their followers.
-        other = FriendlyUser(username, self.data_directory, hash_width=self.hash_width, separator=self.separator)
+        other = self.__class__(username, self.data_directory, hash_width=self.hash_width, separator=self.separator)
         other._add_to_followers(self.username)
         return True
 
@@ -203,7 +203,7 @@ class FriendlyUser(object):
         self._remove_from_following(username)
 
         # Make sure the change is reflected in their followers.
-        other = FriendlyUser(username, self.data_directory, hash_width=self.hash_width, separator=self.separator)
+        other = self.__class__(username, self.data_directory, hash_width=self.hash_width, separator=self.separator)
         other._remove_from_followers(self.username)
         return True
 
