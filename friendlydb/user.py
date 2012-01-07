@@ -184,6 +184,9 @@ class FriendlyUser(object):
         return self._followers
 
     def follow(self, username):
+        if self.username == username:
+            return False
+
         # Add to our following.
         self._add_to_following(username)
 
@@ -193,6 +196,9 @@ class FriendlyUser(object):
         return True
 
     def unfollow(self, username):
+        if self.username == username:
+            return False
+
         # Remove from our following.
         self._remove_from_following(username)
 

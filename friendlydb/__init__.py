@@ -1,5 +1,5 @@
 __author__ = 'Daniel Lindsley'
-__version__ = (0, 2, 0)
+__version__ = (0, 2, 1)
 __license__ = 'BSD'
 
 # Constants
@@ -11,5 +11,4 @@ SEPARATOR = '::'
 # TODO:
 # * LRU cache
 # * Maybe add ``flock`` & exponential back-off in.
-# * Tests
 # * Docs

@@ -84,6 +84,10 @@ class FriendlyUserTestCase(FriendlyTestCase):
         alice_following = self.alice.following()
         self.assertEqual(alice_following, ['daniel'])
 
+    def test_cant_follow_self(self):
+        self.assertFalse(self.daniel.follow('daniel'))
+        self.assertFalse(self.daniel.unfollow('daniel'))
+
     def test_unfollow(self):
         self.assertTrue(self.daniel.follow('alice'))
         self.assertTrue(self.daniel.follow('bob'))
