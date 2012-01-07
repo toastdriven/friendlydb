@@ -1,5 +1,15 @@
 # A small, stupid benchmark for friendlydb.
 #
+# v0.3.1
+# ------
+#
+# Generating 10000 took 0.103417158127
+# Building 1000000 relations took 455.301289082
+# Checking 1000 users followers took 0.428857803345
+#   mean: 0.000428096532822
+#   min: 0.000310897827148
+#   max: 0.000933885574341
+#
 # v0.2.1
 # ------
 #
@@ -8,7 +18,7 @@
 # Checking 1000 users followers took 0.83282494545
 #   mean: 0.000831272602081
 #   min: 0.000524997711182
-#   max: 0.000524997711182
+#   max: 0.000524997711182 # FAIL - fixed in v0.3.1
 #
 
 from __future__ import print_function
@@ -76,7 +86,7 @@ def check_followers():
     # Calculate mean/min/max.
     results['mean_time'] = sum(times) / len(times)
     results['min_time'] = min(times)
-    results['max_time'] = min(times)
+    results['max_time'] = max(times)
     return results
 
 

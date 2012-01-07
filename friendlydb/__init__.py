@@ -1,5 +1,5 @@
 __author__ = 'Daniel Lindsley'
-__version__ = (0, 3, 0)
+__version__ = (0, 3, 1)
 __license__ = 'BSD'
 
 
