@@ -58,9 +58,39 @@ Using FriendlyDB from Python looks like::
     # Dust off & nuke everything from orbit.
     fdb.clear()
 
-Using FriendlyDB from HTTP looks like::
+Using FriendlyDB from HTTP looks like (all trailing slashes are optional)::
 
-    Coming soon.
+    # In one shell, start the server.
+    python friendlydb/server.py
+
+    # From another, run some URLs.
+    curl -X GET http://127.0.0.1:8008/
+    # {"version": "0.3.0"}
+
+    curl -X GET http://127.0.0.1:8008/daniel/
+    # {"username": "daniel", "following": [], "followers": []}
+
+    curl -X POST http://127.0.0.1:8008/daniel/follow/alice/
+    # {"username": "daniel", "other_username": "alice", "followed": true}
+    curl -X POST http://127.0.0.1:8008/daniel/follow/bob/
+    # {"username": "daniel", "other_username": "bob", "followed": true}
+    curl -X POST http://127.0.0.1:8008/daniel/follow/joe/
+    # {"username": "daniel", "other_username": "joe", "followed": true}
+
+    curl -X POST http://127.0.0.1:8008/daniel/unfollow/joe/
+    # {"username": "daniel", "other_username": "joe", "unfollowed": true}
+
+    curl -X GET http://127.0.0.1:8008/daniel/
+    # {"username": "daniel", "following": ["alice", "bob"], "followers": []}
+
+    curl -X GET http://127.0.0.1:8008/daniel/is_following/alice/
+    # {"username": "daniel", "other_username": "alice", "is_following": true}
+
+    curl -X GET http://127.0.0.1:8008/alice/is_followed_by/daniel/
+    # {"username": "alice", "other_username": "daniel", "is_followed_by": true}
+
+    curl -X GET http://127.0.0.1:8008/alice/is_followed_by/joe/
+    # {"username": "alice", "other_username": "joe", "is_followed_by": false}
 
 
 Requirements
@@ -120,5 +150,5 @@ License
 New BSD license.
 
 :author: Daniel Lindsley
-:version: 0.2.2
-:date: 2012-01-06
+:version: 0.3.0
+:date: 2012-01-07

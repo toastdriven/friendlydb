@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = "friendlydb",
-    version = "0.2.2",
+    version = "0.3.0",
     description = "A small & fast following/followers database.",
     author = 'Daniel Lindsley',
     author_email = 'daniel@toastdriven.com',

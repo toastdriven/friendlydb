@@ -1,6 +1,11 @@
 __author__ = 'Daniel Lindsley'
-__version__ = (0, 2, 2)
+__version__ = (0, 3, 0)
 __license__ = 'BSD'
+
+
+def get_version():
+    return '-'.join(['.'.join([str(num) for num in __version__[:3]])] + list(__version__[3:]))
+
 
 # Constants
 HASH_WIDTH = 6
