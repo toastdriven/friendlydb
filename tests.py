@@ -180,6 +180,30 @@ class FriendlyUserTestCase(FriendlyTestCase):
         self.assertEqual(len(history[0]), 3)
         self.assertEqual([(bits[0], bits[1]) for bits in history], [('Added', 'daniel'), ('Added', 'alice'), ('Deleted', 'daniel'), ('Added', 'daniel')])
 
+    def test_unfollow(self):
+        self.assertTrue(self.daniel.follow('alice'))
+        self.assertTrue(self.daniel.follow('bob'))
+        self.assertTrue(self.daniel.follow('joe'))
+        self.assertTrue(self.alice.follow('daniel'))
+        self.assertTrue(self.alice.follow('bob'))
+        self.assertTrue(self.bob.follow('daniel'))
+
+        # Make sure it worked.
+        daniel_following = self.daniel.following()
+        self.assertEqual(daniel_following, ['alice', 'bob', 'joe'])
+        alice_followers = self.alice.followers()
+        self.assertEqual(alice_followers, ['daniel'])
+        alice_following = self.alice.following()
+        self.assertEqual(alice_following, ['daniel', 'bob'])
+
+        # Kaboom!
+        self.daniel.delete()
+
+        alice_followers = self.alice.followers()
+        self.assertEqual(alice_followers, [])
+        alice_following = self.alice.following()
+        self.assertEqual(alice_following, ['bob'])
+
 
 class FriendlyDBTestCase(FriendlyTestCase):
     def test_init(self):
@@ -233,3 +257,21 @@ class FriendlyDBTestCase(FriendlyTestCase):
 
         self.assertTrue(fdb.clear())
         self.assertFalse(os.path.exists(daniel.full_path))
+
+    def test_delete_user(self):
+        fdb = FriendlyDB(data_directory=self.data_dir)
+        daniel = fdb['daniel']
+        alice = fdb['alice']
+        bob = fdb['bob']
+
+        daniel.follow('alice')
+        alice.follow('daniel')
+        alice.follow('bob')
+
+        self.assertEqual(daniel.following(), ['alice'])
+        self.assertEqual(alice.following(), ['daniel', 'bob'])
+        self.assertEqual(alice.followers(), ['daniel'])
+
+        fdb.delete_user('alice')
+
+        self.assertEqual(daniel.following(), [])

@@ -92,3 +92,7 @@ class FriendlyDB(object):
             kwargs['separator'] = self.separator
 
         return self.user_klass(username, self.data_directory, **kwargs)
+
+    def delete_user(self, username):
+        user = self[username]
+        return user.delete()

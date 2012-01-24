@@ -214,3 +214,16 @@ class FriendlyUser(object):
     def is_followed_by(self, username):
         followers = self.followers()
         return username in followers
+
+    def delete(self):
+        following = self.following()
+        followers = self.followers()
+
+        for follow in following:
+            self.unfollow(follow)
+
+        for follower in followers:
+            other = self.__class__(follower, self.data_directory, hash_width=self.hash_width, separator=self.separator)
+            other.unfollow(self.username)
+
+        return True
