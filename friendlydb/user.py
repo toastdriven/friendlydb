@@ -215,6 +215,11 @@ class FriendlyUser(object):
         followers = self.followers()
         return username in followers
 
+    def friends(self):
+        following = set(self.following())
+        followers = set(self.followers())
+        return following.intersection(followers)
+
     def delete(self):
         following = self.following()
         followers = self.followers()

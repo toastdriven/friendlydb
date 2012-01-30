@@ -87,6 +87,14 @@ def user_followers(request_method, username):
         'followers': user.followers(),
     }
 
+def user_friends(request_method, username):
+    _check_method('GET', request_method)
+    user = fdb[username]
+    return ok, {
+        'username': username,
+        'friends': list(user.friends()),
+    }
+
 def follow(request_method, username, other_username):
     _check_method('POST', request_method)
     user = fdb[username]
@@ -130,6 +138,7 @@ def application(env, start_response):
         ('^/(?P<username>[\w\d._-]+)/?$', user_detail),
         ('^/(?P<username>[\w\d._-]+)/following/?$', user_following),
         ('^/(?P<username>[\w\d._-]+)/followers/?$', user_followers),
+        ('^/(?P<username>[\w\d._-]+)/friends/?$', user_friends),
         ('^/(?P<username>[\w\d._-]+)/follow/(?P<other_username>[\w\d._-]+)/?$', follow),
         ('^/(?P<username>[\w\d._-]+)/unfollow/(?P<other_username>[\w\d._-]+)/?$', unfollow),
         ('^/(?P<username>[\w\d._-]+)/is_following/(?P<other_username>[\w\d._-]+)/?$', is_following),

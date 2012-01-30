@@ -204,6 +204,19 @@ class FriendlyUserTestCase(FriendlyTestCase):
         alice_following = self.alice.following()
         self.assertEqual(alice_following, ['bob'])
 
+    def test_friends(self):
+        self.assertTrue(self.daniel.follow('alice'))
+        self.assertTrue(self.daniel.follow('bob'))
+        self.assertTrue(self.daniel.follow('joe'))
+        self.assertTrue(self.alice.follow('daniel'))
+        self.assertTrue(self.alice.follow('bob'))
+        self.assertTrue(self.bob.follow('daniel'))
+
+        mutual_1 = self.daniel.friends()
+        self.assertEqual(mutual_1, set(['bob', 'alice']))
+        mutual_2 = self.alice.friends()
+        self.assertEqual(mutual_2, set(['daniel']))
+
 
 class FriendlyDBTestCase(FriendlyTestCase):
     def test_init(self):
