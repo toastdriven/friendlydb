@@ -61,7 +61,7 @@ Using FriendlyDB from Python looks like::
 Using FriendlyDB from HTTP looks like (all trailing slashes are optional)::
 
     # In one shell, start the server.
-    python friendlydb/server.py
+    python friendlydb/server.py -d /tmp/friendly
 
     # From another, run some URLs.
     curl -X GET http://127.0.0.1:8008/
@@ -150,5 +150,5 @@ License
 New BSD license.
 
 :author: Daniel Lindsley
-:version: 0.3.0
-:date: 2012-01-07
+:version: 0.4.0
+:date: 2012-01-30
