@@ -1,5 +1,6 @@
 import os
 import shutil
+import tempfile
 import time
 from friendlydb import __version__, HASH_WIDTH, SEPARATOR
 from friendlydb.exceptions import StorageError, ConfigError
@@ -44,8 +45,6 @@ class FriendlyDB(object):
         # TODO: If there are ever changes that require data migration, we'll
         #       need to check them here.
 
-        # Make sure it's up to date.
-        self._write_config()
         self.is_setup = True
 
     def config_path(self):
@@ -70,8 +69,12 @@ class FriendlyDB(object):
             'last_opened': time.time(),
         }
 
-        with open(config_path, 'w') as config_file:
-            json.dump(config, config_file)
+        # Write to a temp file.
+        temp = tempfile.NamedTemporaryFile(mode='w', delete=False)
+        json.dump(config, temp)
+        temp.close()
+        # Move it into place.
+        shutil.move(temp.name, config_path)
 
         return config
 
