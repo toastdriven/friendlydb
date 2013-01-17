@@ -1,5 +1,14 @@
 # A small, stupid benchmark for friendlydb.
 #
+# v2.0.0
+# ------
+# Generating 10000 took 0.11811709404
+# Building 1000000 relations took 178.619861126
+# Checking 1000 users followers took 1.66441106796
+#   mean: 0.00166352272034
+#   min: 0.00112891197205
+#   max: 0.00374412536621
+#
 # v0.3.1
 # ------
 #
@@ -23,14 +32,15 @@
 
 from __future__ import print_function
 import random
-import shutil
 import time
 from friendlydb.db import FriendlyDB
 
 
 # Config.
 all_chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
-data_dir = '/tmp/bench_friendly'
+host = 'localhost'
+port = 6379
+db = 15
 user_count = 10000
 relation_count = 1000000
 followers_check = 1000
@@ -39,7 +49,7 @@ followers_check = 1000
 # Go go go!
 chars = [char for char in all_chars]
 users = []
-fdb = FriendlyDB(data_dir)
+fdb = FriendlyDB(host=host, port=port, db=db)
 
 
 def time_taken(func):
@@ -91,7 +101,7 @@ def check_followers():
 
 
 if __name__ == '__main__':
-    shutil.rmtree(data_dir, ignore_errors=True)
+    fdb.clear()
 
     print('Running benchmark...')
     print('  User Count: %s' % user_count)
@@ -115,4 +125,4 @@ if __name__ == '__main__':
     print("  min: %s" % results['min_time'])
     print("  max: %s" % results['max_time'])
 
-    shutil.rmtree(data_dir, ignore_errors=True)
+    fdb.clear()

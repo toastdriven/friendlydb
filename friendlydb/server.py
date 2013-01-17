@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 # Green the world, baby.
 from gevent import monkey
 monkey.patch_all()
@@ -22,19 +24,20 @@ class NotAllowed(Exception):
 def setup(options):
     # Feel gross about this but just sucking it up for now.
     global fdb
-
-    if not options.data_directory:
-        print("The -d flag is required!")
-        sys.exit()
-
-    fdb = FriendlyDB(options.data_directory, options.hash_width)
+    fdb = FriendlyDB(
+        host=options.redis_host,
+        port=options.redis_port,
+        db=options.redis_db
+    )
 
 
 # The HTTPs.
 def _make_response(env, start_response, status, body=None):
     start_response(status, [('Content-Type', 'text/plain')])
+
     if body is None:
         body = {'message': 'ok'}
+
     return [json.dumps(body)]
 
 def not_found(env, start_response):
@@ -171,11 +174,11 @@ def application(env, start_response):
 
 if __name__ == '__main__':
     from optparse import OptionParser
-    import sys
 
     parser = OptionParser()
-    parser.add_option("-d", "--data", dest="data_directory", help="The directory to store the data in.")
-    parser.add_option("-w", "--width", dest="hash_width", type="int", default=None, help="Defines the width of the hashes.")
+    parser.add_option("--redis_host", dest="redis_host", default='localhost', help="The hostname Redis is running on.")
+    parser.add_option("--redis_port", dest="redis_port", type="int", default=6379, help="The port Redis is running on.")
+    parser.add_option("--redis_db", dest="redis_db", type="int", default=0, help="The db within Redis to use.")
     parser.add_option("-H", "--host", dest="host", default='127.0.0.1', help="Choose the host IP/domain name to run the service on. Default: '127.0.0.1'")
     parser.add_option("-p", "--port", dest="port", type="int", default=8008, help="Choose the port to run the service on. Default: 8008")
     (options, args) = parser.parse_args()
@@ -184,11 +187,11 @@ if __name__ == '__main__':
     setup(options)
 
     # Start handling requests.
-    print "Welcome to FriendlyDB (v%s)!" % get_version()
-    print "Serving on http://%s:%s..." % (options.host, options.port)
+    print("Welcome to FriendlyDB (v{0})!".format(get_version()))
+    print("Serving on http://{0}:{1}...".format(options.host, options.port))
     server = pywsgi.WSGIServer((options.host, options.port), application)
 
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print "Shutting down. Have a nice day!"
+        print("Shutting down. Have a nice day!")

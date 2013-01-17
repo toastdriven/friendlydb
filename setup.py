@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = "friendlydb",
-    version = "0.4.0",
+    version = "2.0.0",
     description = "A small & fast following/followers database.",
     author = 'Daniel Lindsley',
     author_email = 'daniel@toastdriven.com',
@@ -11,11 +11,15 @@ setup(
         'friendlydb',
     ],
     classifiers = [
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
     ],
-    url = 'http://github.com/toastdriven/friendlydb'
+    url = 'http://github.com/toastdriven/friendlydb',
+    install_requires=[
+        'redis>=2.72',
+    ],
 )
