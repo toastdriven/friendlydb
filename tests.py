@@ -1,8 +1,11 @@
 import redis
-import unittest2
 from friendlydb import SEPARATOR
 from friendlydb.db import FriendlyDB
 from friendlydb.user import FriendlyUser
+try:
+    import unittest2
+except ImportError:
+    import unittest as unittest2
 
 
 class FriendlyTestCase(unittest2.TestCase):
